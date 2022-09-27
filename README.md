@@ -4,7 +4,7 @@ Middleware for [express](https://www.npmjs.com/package/express) that uses [typeb
 <a href="https://www.npmjs.com/package/typebox-express-middleware" rel="nofollow"><img alt="npm" src="https://img.shields.io/npm/v/typebox-express-middleware"></a>
 <a href="https://www.npmjs.com/package/typebox-express-middleware" rel="nofollow"><img alt="npm" src="https://img.shields.io/npm/dw/typebox-express-middleware"></a>
 <a href="https://github.com/mmamedel/typebox-express-middleware/actions/workflows/node.js.yml" rel="nofollow"><img alt="npm" src="https://github.com/mmamedel/typebox-express-middleware/actions/workflows/node.js.yml/badge.svg"></a>
-<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/npm/l/typebox-express-middleware" alt="License"></a>
+<a href="https://codecov.io/gh/mmamedel/typebox-express-middleware"><img src="https://codecov.io/gh/mmamedel/typebox-express-middleware/branch/main/graph/badge.svg?token=QUZBCJJ289"/></a>
 
 ## Installation
 
