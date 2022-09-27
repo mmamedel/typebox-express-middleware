@@ -4,4 +4,14 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  collectCoverage: true,
+  coverageReporters: ['lcov', 'text-summary', 'cobertura'],
+  coverageThreshold: {
+    global: {
+      branches: 60,
+      functions: 60,
+      lines: 60,
+      statements: 60,
+    },
+  },
 };
