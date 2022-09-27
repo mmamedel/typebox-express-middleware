@@ -1,6 +1,6 @@
 {
   "name": "typebox-express-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Express middleware to validate requests using typebox schemas.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
