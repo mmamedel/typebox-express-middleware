@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/mmamedel/typebox-express-middleware"
   },
+  "license": "MIT",
   "scripts": {
     "test": "jest ./src",
     "lint": "eslint . --ext .ts,.tsx",
