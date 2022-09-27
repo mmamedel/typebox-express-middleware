@@ -1,0 +1,47 @@
+{
+  "name": "typebox-express-middleware",
+  "version": "0.0.1",
+  "description": "Express middleware to validate requests using typebox schemas.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/mmamedel/typebox-express-middleware",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmamedel/typebox-express-middleware"
+  },
+  "scripts": {
+    "test": "jest ./src",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "express",
+    "typebox",
+    "middleware",
+    "endpoint",
+    "validation"
+  ],
+  "devDependencies": {
+    "@sinclair/typebox": "^0.24.43",
+    "@types/express": "^4.17.14",
+    "@types/jest": "^29.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "eslint": "^8.24.0",
+    "express": "^4.18.1",
+    "jest": "^29.0.3",
+    "prettier": "^2.7.1",
+    "ts-jest": "^29.0.2",
+    "typescript": "^4.8.3"
+  },
+  "peerDependencies": {
+    "@sinclair/typebox": "^0.24.43",
+    "@types/express": "^4.17.14",
+    "express": "^4.18.1"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}
