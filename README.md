@@ -15,7 +15,7 @@ This package relies on [typebox](https://www.npmjs.com/package/@sinclair/typebox
 `npm install typebox-express-middleware`
 
 ## Usage
-This package provides the `validateRequest` function, which can be used to validate the `.body`, `.query` and `.params` properties of an Express `Request`. Separate functions for each of these are also provided (`validateRequestBody`, `validateRequestQuery` and `validateRequestParams`). 
+This package provides the `validateRequest` function, which can be used to validate the `.body`, `.query`, `.params` and `.headers` properties of an Express `Request`. Separate functions for each of these are also provided (`validateBody`, `validateQuery`, `validateParams` and `validateHeaders`). 
 
 **Basic example:**
 ```typescript
@@ -57,11 +57,15 @@ app.get("/:urlParameter/", validateRequest({
     query: Type.Object({
       queryKey: Type.String({ minLength: 64 }),
     }),
+    headers: Type.Object({
+      Authorization: Type.String({ minLength: 8 }
+    }),
   }), (req, res) => {
     // req.params, req.body and req.query are now strictly-typed and confirm to the typebox schema above.
     // req.params has type { urlParameter: string };
     // req.body has type { bodyKey: number };
     // req.query has type { queryKey: string };
+    // req.headers confirms to the typebox schema above.
     return res.json({message: "Validation for params, body and query passed"});  
   }
 );
@@ -76,12 +80,13 @@ The `validate*` functions do not modify the query, params or body of the Request
 
 ### validateRequest
 
-This functions accepts an object containing three optional properties:
+This functions accepts an object containing four optional properties:
 ```typescript
 schemas: {
   params? : TSchema,
   query? : TSchema,
-  body? : TSchema
+  body? : TSchema,
+  headers? : TSchema
 }
 ```
  
@@ -89,7 +94,7 @@ Each is a `TSchema`, from typebox library. The `validateRequest` function checks
 
 If validation passes, `next` will be called and your request body, query and params properties will be type-safe within the endpoint. 
 
-If validation fails, a `TypeboxError` is thrown and you can pick it up in any express error middleware that you may have set up. A simple example is:
+If validation fails, a `TypeboxError` is passed to next function and you can pick it up in any express error middleware that you may have set up. A simple example is:
 ```typescript
 app.use((error, req, res, next) => {
   if (error instanceof TypeboxError) {
@@ -99,18 +104,18 @@ app.use((error, req, res, next) => {
 };
 ```
 
-### validateRequestBody, validateRequestQuery and validateRequestParams
+### validateBody, validateQuery, validateParams and validateHeaders
 
-These three functions work exactly the same as `validateRequest`, except they only validate a single property within the Express `Request`.
-The other, non-validated properties will have type `any`, as if they were not modified at all. Only an example is provided for `validateRequestBody`, but `validateRequestQuery` and `validateRequestParams` work in the same manner.
+These four functions work exactly the same as `validateRequest`, except they only validate a single property within the Express `Request`.
+The other, non-validated properties will have type `any`, as if they were not modified at all. Only an example is provided for `validateBody`, but `validateQuery` and `validateParams` work in the same manner.
 
 **Example:**
 ```typescript
-import { validateRequestBody } from 'typebox-express-middleware';
+import { validateBody } from 'typebox-express-middleware';
 import { Type } from '@sinclair/typebox';
 
 // app is an express app
-app.get("/", validateRequestBody(
+app.get("/", validateBody(
     Type.Object({
       bodyKey: Type.Number(),
     })
@@ -140,3 +145,5 @@ export async function endpointCode(req: TypedRequestBody<typeof bodySchema>, res
 }
 
 ```
+
+Headers are validated, but headers type are not provided since headers have IncommingHttpHeaders by default and can not be extended.
