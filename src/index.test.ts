@@ -1,5 +1,5 @@
 import { Type } from '@sinclair/typebox';
-import { TypeboxError, validateBody, validateParams, validateQuery } from './index';
+import { TypeboxError, validateBody, validateHeaders, validateParams, validateQuery } from './index';
 import { Response, NextFunction } from 'express';
 
 const resMock = {} as Response;
@@ -19,11 +19,12 @@ describe('Body', () => {
   it('passes validation', () => {
     const reqMock = { body: { bodyKey: 10 } } as any;
     expect(() => validation(reqMock, resMock, nextMock)).not.toThrow();
-    expect(nextMock).toBeCalledTimes(1);
+    expect(nextMock).toBeCalledWith();
   });
 
   it('fails validation', () => {
-    expect(() => validation(emptyRequest, resMock, nextMock)).toThrowError(TypeboxError);
+    expect(() => validation(emptyRequest, resMock, nextMock)).not.toThrow();
+    expect(nextMock).toHaveBeenCalledWith(new TypeboxError([]));
   });
 });
 
@@ -36,11 +37,12 @@ describe('Params', () => {
   it('passes validation', () => {
     const reqMock = { params: { urlParameter: 'param' } } as any;
     expect(() => validation(reqMock, resMock, nextMock)).not.toThrow();
-    expect(nextMock).toBeCalledTimes(1);
+    expect(nextMock).toBeCalledWith();
   });
 
   it('fails validation', () => {
-    expect(() => validation(emptyRequest, resMock, nextMock)).toThrowError(TypeboxError);
+    expect(() => validation(emptyRequest, resMock, nextMock)).not.toThrow();
+    expect(nextMock).toHaveBeenCalledWith(new TypeboxError([]));
   });
 });
 
@@ -53,10 +55,29 @@ describe('Query', () => {
   it('passes validation', () => {
     const reqMock = { query: { queryKey: '123456789' } } as any;
     expect(() => validation(reqMock, resMock, nextMock)).not.toThrow();
-    expect(nextMock).toBeCalledTimes(1);
+    expect(nextMock).toBeCalledWith();
   });
 
   it('fails validation', () => {
-    expect(() => validation(emptyRequest, resMock, nextMock)).toThrowError(TypeboxError);
+    expect(() => validation(emptyRequest, resMock, nextMock)).not.toThrow();
+    expect(nextMock).toHaveBeenCalledWith(new TypeboxError([]));
+  });
+});
+
+describe('Headers', () => {
+  const headerSchema = Type.Object({
+    'Authorization': Type.String({ minLength: 8 }),
+  })
+  const validation = validateHeaders(headerSchema);
+
+  it('passes validation', () => {
+    const reqMock = { headers: { Authorization: '12345678' } } as any;
+    expect(() => validation(reqMock, resMock, nextMock)).not.toThrow();
+    expect(nextMock).toBeCalledWith();
+  });
+
+  it('fails validation', () => {
+    expect(() => validation(emptyRequest, resMock, nextMock)).not.toThrow();
+    expect(nextMock).toHaveBeenCalledWith(new TypeboxError([]));
   });
 });
